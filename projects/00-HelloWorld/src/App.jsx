@@ -1,24 +1,26 @@
 import './App.css'
+import { TwitterFollowCard } from './TwitterFollowCard'
 
 export function App() {
     return (
-        <article className='tw-followCard'>
-            <header className='tw-followCard-header'>
-                <img
-                    className='tw-followCard-avatar'
-                    src="https://unavatar.io/kikobeats"
-                    alt="The avatar" />
-                <div className='tw-followCard-info'>
-                    <strong>Test User</strong>
-                    <span
-                    className='tw-followCard-infoUserName'>@nevergonnagiveyouup</span>
-                </div>
-            </header>
-            <aside>
-                <button className='tw-followCard-button'>
-                    Follow
-                </button>
-            </aside>
-        </article>
+        <section className="App">
+            <TwitterFollowCard
+                isFollowing
+                userName='kikobeats'
+                name='testuser1' 
+                />
+
+            <TwitterFollowCard
+                isFollowing={false}
+                userName='pheralb'
+                name='testuser2' 
+                />
+
+            <TwitterFollowCard
+                isFollowing
+                userName='vxnder'
+                name='testuser3' 
+                />
+        </section>
     )
 }
