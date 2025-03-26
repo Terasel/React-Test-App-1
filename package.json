@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/Terasel/React-Test-App-1/issues"
   },
-  "homepage": "https://github.com/Terasel/React-Test-App-1#readme"
+  "homepage": "https://github.com/Terasel/React-Test-App-1#readme",
+  "dependencies": {
+    "underscore": "^1.13.7"
+  }
 }
