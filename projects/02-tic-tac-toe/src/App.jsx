@@ -22,16 +22,55 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
   )
 }
 
+const WINNER_COMBOS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+]
+
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null))
   const [turn, setTurn] = useState(TURNS.X)
+  //null means no winner, false means tie 
+  const [winner, setWinner] = useState(null)
+
+  const checkWinner = (boardToCheck) => {
+    //check all winner combos
+    for (const combo of WINNER_COMBOS) {
+      const [a,b,c] = combo
+      if (
+        boardToCheck[a] &&
+        boardToCheck[a] === boardToCheck[b] &&
+        boardToCheck[a] === boardToCheck[c]
+      ) {
+        return boardToCheck[a]
+      }
+    }
+    //no winner
+    return null
+  }
 
   const updateBoard = (index) => {
+    //don't update occupied positions in the board 
+    // or if there is a winner
+    if (board[index] || winner) return
+    //update board
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
+    //change turn
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+    //check for winner
+    const newWinner = checkWinner(newBoard) 
+    if (newWinner) {
+      setWinner(newWinner)
+    }
   }
 
   return (
@@ -58,6 +97,29 @@ function App() {
         <Square isSelected={turn === TURNS.O}>
           {TURNS.O}</Square>
       </section>
+
+      {
+        winner !== null && (
+          <section className = "winner">
+            <div className="text">
+            <h2>
+              {
+                winner === false
+                ? "It's a tie"
+                : "The winner is "
+              }
+            </h2>
+            <header className="win">
+              {winner && <Square>{winner}</Square>}
+            </header>
+
+            <footer>
+              <button>Start again</button>
+            </footer>
+            </div>
+          </section>
+        )
+      }
     </main>
   )
 }
