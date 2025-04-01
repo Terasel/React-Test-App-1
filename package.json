@@ -20,5 +20,11 @@
   "homepage": "https://github.com/Terasel/React-Test-App-1#readme",
   "dependencies": {
     "underscore": "^1.13.7"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
   }
 }
