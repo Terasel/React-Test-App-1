@@ -15,6 +15,8 @@ function App() {
   }
 
   const handleChange = (e) => {
+    const newQuery = e.target.value
+    if (newQuery.startsWith(' ')) return
     setQuery(e.target.value)
   }
 
@@ -42,7 +44,11 @@ function App() {
       <header>
         <h1>Movie search</h1>
         <form className='form' onSubmit={handleSubmit}>
-          <input onChange={handleChange} value={query} name='query' type="text"
+          <input style={{
+            border: '1px solid transparent',
+            borderColor: error ? 'red' : 'transparent'
+          }}
+            onChange={handleChange} value={query} name='query' type="text"
             placeholder='Avengers, Star Wars, The Matrix...' />
           <button type='submit'>Search</button>
         </form>
