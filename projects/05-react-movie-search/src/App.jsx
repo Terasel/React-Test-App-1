@@ -1,43 +1,52 @@
 import './App.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 
-function App() {
-  const { movies } = useMovies()
-  const [query, setQuery] = useState('')
+function useSearch() {
+  const [search, updateSearch] = useState('')
   const [error, setError] = useState(null)
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log({ query })
-  }
-
-  const handleChange = (e) => {
-    const newQuery = e.target.value
-    if (newQuery.startsWith(' ')) return
-    setQuery(e.target.value)
-  }
+  const isFirstInput = useRef(true)
 
   useEffect(() => {
-    if (query === '') {
+    if (isFirstInput.current) {
+      isFirstInput.current = search === ''
+      return
+    }
+
+    if (search === '') {
       setError('You cannot search for a movie with no name')
       return
     }
 
-    if (query.match(/^\d+$/)) {
+    if (search.match(/^\d+$/)) {
       setError('You cannot search for a movie with only a number for a name')
       return
     }
 
-    if (query.length < 3) {
+    if (search.length < 3) {
       setError('A search must have at least 3 characters')
       return
     }
 
     setError(null)
-  }, [query])
+  }, [search])
+
+  return { search, updateSearch, error }
+}
+
+function App() {
+  const { movies } = useMovies()
+  const { search, updateSearch, error } = useSearch()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log({ search })
+  }
+
+  const handleChange = (e) => {
+    updateSearch(e.target.value)
+  }
 
   return (
     <div className='page'>
@@ -48,7 +57,7 @@ function App() {
             border: '1px solid transparent',
             borderColor: error ? 'red' : 'transparent'
           }}
-            onChange={handleChange} value={query} name='query' type="text"
+            onChange={handleChange} value={search} name='query' type="text"
             placeholder='Avengers, Star Wars, The Matrix...' />
           <button type='submit'>Search</button>
         </form>
