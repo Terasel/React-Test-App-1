@@ -36,12 +36,12 @@ function useSearch() {
 }
 
 function App() {
-  const { movies } = useMovies()
   const { search, updateSearch, error } = useSearch()
+  const { movies, getMovies } = useMovies({ search })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log({ search })
+    getMovies()
   }
 
   const handleChange = (e) => {
